@@ -90,30 +90,11 @@ namespace WindowsFormsApp3
 
         private void button5_Click(object sender, EventArgs e)
         {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=University;Integrated Security=True";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string sql = "UPDATE StudentTable SET StudentName=@StudentName, StudentAddress=@StudentAddress WHERE RollNo=@RollNo";
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@StudentName", textBox7.Text);    // StudentName
-                    cmd.Parameters.AddWithValue("@StudentAddress", textBox8.Text); // StudentAddress  
-                    cmd.Parameters.AddWithValue("@RollNo", textBox6.Text);         // RollNo (PK/WHERE)
-
-                    conn.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Record Updated Successfully!");
-                        GetData("select * from StudentTable");
-                    }
-                    else
-                    {
-                        MessageBox.Show("No record found with RollNo: " + textBox6.Text);
-                    }
-                }
-            }
+            dataGridView1.DataSource = bindingSource1;
+            GetData("UPDATE StudentTable SET StudentName='" + textBox7.Text + "', StudentAddress='" + textBox8.Text + "' WHERE RollNo=" + textBox6.Text);
+            MessageBox.Show("Record Updated Successfully!");
         }
+
 
     }
 }
